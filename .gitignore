@@ -1,0 +1,5 @@
+ # ignore generated files,
+*.xml
+!pom.xml
+*.iml
+.idea/**
