@@ -17,6 +17,8 @@ import javafx.stage.Stage;
  */
 public class MainClass extends Application {
 
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         Label label = new Label("Page adress = ");
@@ -35,7 +37,7 @@ public class MainClass extends Application {
         Button editLinkButton = new Button("Edit Links");
         editLinkButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                LinkTableStage linkTableStage=new LinkTableStage(observableLinkList);
+                ListViewStage listViewStage =new ListViewStage(observableLinkList);
             }
         });
 
