@@ -3,7 +3,4 @@
 !pom.xml
 *.iml
 .idea/**
-src/main/java/com/epam/attempts/*
 target/*
-*.log
-
