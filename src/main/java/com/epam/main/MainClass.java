@@ -2,7 +2,9 @@ package com.epam.main;
 
 
 import com.epam.robot.Robot;
+import org.jsoup.Jsoup;
 
+import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.util.logging.FileHandler;
 import java.util.logging.Logger;
@@ -15,6 +17,7 @@ public class MainClass {
     static Logger log = Logger.getLogger(MainClass.class.getName());
     static Robot robot = new Robot();
     static FileHandler fileHandler;
+
 
     public static void main(String[] args) {
         robot.start();
@@ -31,5 +34,9 @@ public class MainClass {
         catch (IOException e){
             e.printStackTrace();
         }
+
+       Parser parser = new Parser("audiobooki.biz.pl");
+       parser.checkUserChoice();
     }
+
 }
