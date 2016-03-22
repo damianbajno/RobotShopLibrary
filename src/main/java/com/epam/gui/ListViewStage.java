@@ -18,6 +18,10 @@ import javafx.util.Callback;
  * Created by damian on 21.03.16.
  */
 public class ListViewStage {
+    private final String MESSAGE_WHEN_LINE_ADDED = "Added Line";
+    private final String ADD_BUTTON_LABEL = "Add Line";
+    private final String REMOVE_BUTTON_LABEL = "Remove Line";
+
     private Stage stage;
     private ObservableList<String> observableLinkList;
 
@@ -44,22 +48,25 @@ public class ListViewStage {
 
 
     private void createButtons() {
-        Button addLineButton = new Button("Add Line");
+        Button addLineButton = new Button(ADD_BUTTON_LABEL);
         addLineButton.setOnAction(new EventHandler<ActionEvent>() {
             public void handle(ActionEvent event) {
-                observableLinkList.add("Added Line");
+                observableLinkList.add(MESSAGE_WHEN_LINE_ADDED);
             }
         });
 
-        Button removeLineButton = new Button("Remove Line");
+        Button removeLineButton = new Button(REMOVE_BUTTON_LABEL);
         removeLineButton.setOnAction(new EventHandler<ActionEvent>() {
+
             public void handle(ActionEvent event) {
-                observableLinkList.remove(linkListView.getSelectionModel().getSelectedIndex());
+                int focusedIndex = linkListView.getFocusModel().getFocusedIndex();
+                if (focusedIndex != -1)
+                    observableLinkList.remove(focusedIndex);
             }
         });
 
-        hBox=new HBox();
-        hBox.getChildren().addAll(addLineButton,removeLineButton);
+        hBox = new HBox();
+        hBox.getChildren().addAll(addLineButton, removeLineButton);
         hBox.setAlignment(Pos.CENTER_LEFT);
         hBox.setSpacing(40D);
     }

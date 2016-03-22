@@ -33,6 +33,7 @@ public class MainClass extends Application {
         linkListComboBox.setVisibleRowCount(7);
         linkListComboBox.setEditable(true);
 
+        final TextArea freeBookTitleTextArea = new TextArea();
 
         Button editLinkButton = new Button("Edit Links");
         editLinkButton.setOnAction(new EventHandler<ActionEvent>() {
@@ -48,7 +49,7 @@ public class MainClass extends Application {
         linkToLibraryHBox.setAlignment(Pos.CENTER_LEFT);
         linkToLibraryHBox.setSpacing(10D);
 
-        TextArea freeBookTitleTextArea = new TextArea();
+
 
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(linkToLibraryHBox);
