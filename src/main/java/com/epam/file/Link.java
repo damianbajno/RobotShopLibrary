@@ -5,15 +5,35 @@ package com.epam.file;
  */
 public class Link {
     private String linkAdress;
+    private String typeForSearch;
+    private String nameForSearch;
     private String fileName;
 
-    public Link(String linkAdress) {
-        this.linkAdress=linkAdress;
-        this.fileName=createFileName();
+    public Link(String linkAdress, String typeForSearch, String nameForSearch) {
+        this.linkAdress = linkAdress;
+        this.typeForSearch=typeForSearch;
+        this.nameForSearch=nameForSearch;
+        this.fileName = createFileName();
     }
 
-    protected String createFileName(){
-        return linkAdress.replaceAll("/","");
+    public String getTypeForSearch() {
+        return typeForSearch;
+    }
+
+    public void setTypeForSearch(String typeForSearch) {
+        this.typeForSearch = typeForSearch;
+    }
+
+    public String getNameForSearch() {
+        return nameForSearch;
+    }
+
+    public void setNameForSearch(String nameForSearch) {
+        this.nameForSearch = nameForSearch;
+    }
+
+    protected String createFileName() {
+        return linkAdress.replaceAll("/", "");
     }
 
     public String getLinkAdress() {
@@ -24,6 +44,7 @@ public class Link {
         return fileName;
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -31,20 +52,23 @@ public class Link {
 
         Link link = (Link) o;
 
-        return linkAdress.equals(link.linkAdress);
+        if (!linkAdress.equals(link.linkAdress)) return false;
+        if (!typeForSearch.equals(link.typeForSearch)) return false;
+        return nameForSearch.equals(link.nameForSearch);
 
     }
 
     @Override
     public int hashCode() {
-        return linkAdress.hashCode();
+        int result = linkAdress.hashCode();
+        result = 31 * result + typeForSearch.hashCode();
+        result = 31 * result + nameForSearch.hashCode();
+        return result;
     }
 
     @Override
     public String toString() {
-        return "Link{" +
-                "linkAdress='" + linkAdress + '\'' +
-                ", fileName='" + fileName + '\'' +
-                '}';
+        return linkAdress + ' ' + typeForSearch + ' ' + nameForSearch;
     }
+
 }

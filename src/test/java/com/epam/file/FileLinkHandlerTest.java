@@ -21,7 +21,7 @@ public class FileLinkHandlerTest {
         final List<Link> links = fileLinkHandler.readLinksFromFile();
 
         //then
-        Assertions.assertThat(links).contains(new Link("http://demotywatory.pl/"));
+        Assertions.assertThat(links).contains(new Link("http://demotywatory.pl/", null, null));
 
     }
 
@@ -32,9 +32,9 @@ public class FileLinkHandlerTest {
 
         //when
         List<Link> linkList= new ArrayList<Link>();
-        linkList.add(new Link(url));
-        linkList.add(new Link("https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1#inbox"));
-        fileLinkHandler.writeLinksToFile(linkList);
+        linkList.add(new Link(url,null, null));
+        linkList.add(new Link("https://accounts.google.com/ServiceLogin?service=mail&passive=true&rm=false&continue=https://mail.google.com/mail/&ss=1&scc=1&ltmpl=default&ltmplcache=2&emr=1&osid=1#inbox", null, null));
+//        fileLinkHandler.writeLinksToFile(linkList);
 
         //then
 

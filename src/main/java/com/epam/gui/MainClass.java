@@ -1,5 +1,8 @@
 package com.epam.gui;
 
+import com.epam.file.FileBookHandler;
+import com.epam.file.FileLinkHandler;
+import com.epam.util.UrlUtils;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -7,7 +10,10 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -16,18 +22,16 @@ import javafx.stage.Stage;
  * Created by damian on 20.03.16.
  */
 public class MainClass extends Application {
-
-
+    private FileLinkHandler fileLinkHandler = new FileLinkHandler();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Label label = new Label("Page adress = ");
 
-        final ObservableList<String> observableLinkList= FXCollections.observableArrayList(
-                "Option a",
-                "Option bdfd gasdggggg",
-                "Option c"
+        final ObservableList<String> observableLinkList = FXCollections.observableArrayList(
+                fileLinkHandler.getUrlList()
         );
+
         final ComboBox<String> linkListComboBox = new ComboBox<String>(observableLinkList);
         linkListComboBox.setPrefWidth(300D);
         linkListComboBox.setVisibleRowCount(7);
@@ -35,20 +39,29 @@ public class MainClass extends Application {
 
         final TextArea freeBookTitleTextArea = new TextArea();
 
-        Button editLinkButton = new Button("Edit Links");
-        editLinkButton.setOnAction(new EventHandler<ActionEvent>() {
+        linkListComboBox.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
             public void handle(ActionEvent event) {
-                ListViewStage listViewStage =new ListViewStage(observableLinkList);
+                String urlName = linkListComboBox.getSelectionModel().getSelectedItem().toString();
+                String fileName1 = UrlUtils.getFileName(urlName);
+                System.out.println("file = "+fileName1);
+                FileBookHandler fileBookHandler=new FileBookHandler(fileName1);
+                freeBookTitleTextArea.appendText(fileBookHandler.readBookTitlesFromFile());
             }
         });
 
+        Button editLinkButton = new Button("Edit Links");
+        editLinkButton.setOnAction(new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                ListViewStage listViewStage = new ListViewStage(observableLinkList);
+            }
+        });
 
 
         HBox linkToLibraryHBox = new HBox();
         linkToLibraryHBox.getChildren().addAll(label, linkListComboBox, editLinkButton);
         linkToLibraryHBox.setAlignment(Pos.CENTER_LEFT);
         linkToLibraryHBox.setSpacing(10D);
-
 
 
         BorderPane borderPane = new BorderPane();

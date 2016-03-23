@@ -82,4 +82,14 @@ public class UrlUtilsTest {
         Assertions.assertThat(url).asString().contains("https://", "https://");
         Assertions.assertThat(url).asString().contains("https://", "https://");
     }
+
+    @Test
+    public void ifPutUrlItRemoveSlashes(){
+        String url="http://e-bookshop.pl/362-wyprzedaz";
+
+        String fileNameWithOutSlashes = UrlUtils.getFileName(url);
+
+        Assertions.assertThat(fileNameWithOutSlashes).isEqualTo("http:e-bookshop.pl362-wyprzedaz.txt");
+    }
+
 }

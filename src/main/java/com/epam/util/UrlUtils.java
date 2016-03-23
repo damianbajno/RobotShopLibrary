@@ -9,14 +9,7 @@ import java.util.regex.Pattern;
 public class UrlUtils {
 
     public static boolean checkIfUrl(String url){
-
         if (url==null) return false;
-
-//        url.replace("https://www.", "");
-//        url.replace("http://www.","");
-//        url.replace("http://","");
-//        url.replace("https://","");
-
 
         Pattern pattern=Pattern.compile("(http)?(s)?(://)?(www.)?[a-z]+[.][a-z]{1,5}(/)*.*");
         Matcher matcher = pattern.matcher(url);
@@ -28,5 +21,9 @@ public class UrlUtils {
            if (url.contains("https://") || url.contains("http://"))
                return url;
             return "https://" + url;
+    }
+
+    public static String getFileName(String url){
+        return url.replaceAll("/", "")+".txt";
     }
 }

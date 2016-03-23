@@ -10,7 +10,7 @@ public class LinkTest {
 
     @Test
     public void ifPutUrlItRemoveSlashes(){
-        Link link=new Link("dsa///dsadsad/adss");
+        Link link=new Link("dsa///dsadsad/adss", null, null);
 
         String fileNameWithOutSlashes = link.createFileName();
 
