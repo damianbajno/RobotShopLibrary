@@ -37,7 +37,7 @@ public class FileLinkHandler {
                 String[] split = linkS.split(" ");
 
                 if (split.length == 3) {
-                    Link link = new Link(split[0], split[1], split[1]);
+                    Link link = new Link(split[0], split[1], split[2]);
                     linkList.add(link);
                     urlList.add(split[0]);
                 }
@@ -62,7 +62,7 @@ public class FileLinkHandler {
     }
 
 
-    public List<Link> getLinkList() {
+    public List<Link> getLinksList() {
         return linkList;
     }
 

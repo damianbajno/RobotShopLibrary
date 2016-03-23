@@ -85,11 +85,11 @@ public class UrlUtilsTest {
 
     @Test
     public void ifPutUrlItRemoveSlashes(){
-        String url="http://e-bookshop.pl/362-wyprzedaz";
+        String url="http://e-bookshop.pl.txt/362-wyprzedaz";
 
         String fileNameWithOutSlashes = UrlUtils.getFileName(url);
 
-        Assertions.assertThat(fileNameWithOutSlashes).isEqualTo("http:e-bookshop.pl362-wyprzedaz.txt");
+        Assertions.assertThat(fileNameWithOutSlashes).isEqualTo("e-bookshop.pl.txt.txt");
     }
 
 }

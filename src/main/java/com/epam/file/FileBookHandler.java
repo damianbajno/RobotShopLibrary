@@ -3,7 +3,6 @@ package com.epam.file;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintWriter;
-import java.net.URL;
 import java.util.Scanner;
 
 /**
@@ -19,19 +18,17 @@ public class FileBookHandler {
         this.fileName = fileName;
         this.bookTitles = new StringBuilder();
 
-        freeBooksTitlesUrl = loadFile(fileName);
+        loadFile();
         readBookTitlesFromFile();
     }
 
-    private File loadFile(String fileName) {
+    private void loadFile() {
         ClassLoader classLoader = getClass().getClassLoader();
-        System.out.println("File name in class "+fileName);
-        File file = classLoader.getResource(fileName).getFile();
-        return file;
+        freeBooksTitlesUrl = new File(classLoader.getResource(fileName).getFile());
     }
 
     public String readBookTitlesFromFile() {
-        try (Scanner scanner = new Scanner(new File(freeBooksTitlesUrl.getFile()))) {
+        try (Scanner scanner = new Scanner(freeBooksTitlesUrl)) {
 
             while (scanner.hasNextLine()) {
                 bookTitles.append(scanner.nextLine() + "\n");
@@ -43,9 +40,9 @@ public class FileBookHandler {
         return bookTitles.toString();
     }
 
-    private void writeBookTitlesToFile() {
+    public void writeBookTitlesToFile(String string) {
         try (PrintWriter printWriter = new PrintWriter("src/main/resources/" + fileName)) {
-            printWriter.println("a");
+            printWriter.print(string);
             printWriter.flush();
         } catch (FileNotFoundException e)
 

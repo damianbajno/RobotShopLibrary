@@ -24,6 +24,7 @@ public class UrlUtils {
     }
 
     public static String getFileName(String url){
-        return url.replaceAll("/", "")+".txt";
+        int beginIndex = url.indexOf('/') + 2;
+        return url.substring(beginIndex, url.indexOf('/',beginIndex)) + ".txt";
     }
 }

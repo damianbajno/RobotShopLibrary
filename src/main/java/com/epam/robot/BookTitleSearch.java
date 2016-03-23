@@ -1,6 +1,7 @@
 package com.epam.robot;
 
 import org.apache.commons.lang3.math.NumberUtils;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -15,6 +16,9 @@ import java.util.Iterator;
  * Created by damian on 22.03.16.
  */
 public class BookTitleSearch {
+    private static Logger logger = Logger.getLogger("BookTitleSearch");
+    private static StringBuilder titleBookContainer = new StringBuilder();
+
 
     public static void main(String[] args) {
 
@@ -26,19 +30,51 @@ public class BookTitleSearch {
 //        BookTitleSearch.searchTitleByClass("https://www.gutenberg.org/ebooks/search/?query=free+book&go=Go","title");
 
 
-//        System.out.println("http://e-bookshop.pl/362-wyprzedaz");
-//        BookTitleSearch.searchTitleByTag("http://e-bookshop.pl/362-wyprzedaz","h3");
+        System.out.println("http://e-bookshop.pl.txt/362-wyprzedaz");
+        BookTitleSearch.searchTitleByTag("http://e-bookshop.pl/362-wyprzedaz?&p=7", "h3");
 
-        BookTitleSearch.searchSubPagesInPageByNumber("http://e-bookshop.pl/362-wyprzedaz");
-        searchInPagesBookTitles();
+//        BookTitleSearch.searchSubPagesInPageByNumber("http://e-bookshop.pl/362-wyprzedaz");
     }
 
-    public static void searchInPagesBookTitles(){
+
+    public static String searchTitlesInPageAndSubPagesByTag(String adress, String typeToSearch) {
+        logger.info("Started searching Titles");
+        resetVariables();
+        searchSubPagesInPageByNumber(adress);
+
         final Iterator<String> iterator = addressHashSet.iterator();
 
-        while (iterator.hasNext()){
-            BookTitleSearch.searchTitleByTag(iterator.next(), "h3");
+        logger.info("Started iterating over links to search title");
+        logger.error("a" + typeToSearch + "a");
+        while (iterator.hasNext()) {
+            final String next = iterator.next();
+            System.out.println(next);
+            BookTitleSearch.searchTitleByTag(next, typeToSearch);
         }
+
+        logger.info("Finished iterating over links to search titles");
+
+        return titleBookContainer.toString();
+    }
+
+    public static String searchTitlesInPageAndSubPageByClass(String adress, String typeToSearch) {
+        resetVariables();
+        addressHashSet.add(adress);
+        searchSubPagesInPageByNumber(adress);
+
+        final Iterator<String> iterator = addressHashSet.iterator();
+
+
+        while (iterator.hasNext()) {
+            BookTitleSearch.searchTitleByClass(iterator.next(), typeToSearch);
+        }
+
+        return titleBookContainer.toString();
+    }
+
+    private static void resetVariables() {
+        titleBookContainer = new StringBuilder();
+        addressHashSet = new HashSet<>();
     }
 
     public static void searchTitleByClass(String adress, String classNameToSearch) {
@@ -49,7 +85,7 @@ public class BookTitleSearch {
         Iterator<Element> iterator = elementsByClass.iterator();
 
         while (iterator.hasNext()) {
-            System.out.println("Tytuł = " + iterator.next().text());
+            titleBookContainer.append(iterator.next().text()+"\n");
         }
     }
 
@@ -61,7 +97,9 @@ public class BookTitleSearch {
         Iterator<Element> iterator = elementsByTag.iterator();
 
         while (iterator.hasNext()) {
-            System.out.println("Tytuł = " + iterator.next().text());
+            Element next = iterator.next();
+            System.out.println(next.text());
+            titleBookContainer.append(next.text()+"\n");
         }
     }
 
@@ -69,20 +107,22 @@ public class BookTitleSearch {
 
     public static void searchSubPagesInPageByNumber(String adress) {
         Document doc = createDocument(adress);
+
         Elements links = doc.select("a[abs:href]");
         Iterator<Element> iterator = links.iterator();
 
         while (iterator.hasNext()) {
             Element element = iterator.next();
 
-            if (isNumberInTagAndisLinkWasSearch(element)) {
+            if (isNumberInTagAndIsLinkWasSearch(element)) {
                 addLinkToSetAndSearchInLinkForPages(element.attr("abs:href"));
-            };
+            }
+            ;
         }
     }
 
-    private static boolean isNumberInTagAndisLinkWasSearch(Element element) {
-        return NumberUtils.isNumber(element.text()) && !addressHashSet.contains(element.attr("abs:href"));
+    private static boolean isNumberInTagAndIsLinkWasSearch(Element element) {
+        return NumberUtils.isNumber(element.text().trim()) && !addressHashSet.contains(element.attr("abs:href"));
     }
 
     private static void addLinkToSetAndSearchInLinkForPages(String linkToSubPage) {
@@ -93,9 +133,9 @@ public class BookTitleSearch {
 
 
     private static Document createDocument(String adress) {
-        Document document=null;
+        Document document = null;
         try {
-            return document=Jsoup.parse(new URL(adress), 10000);
+            return document = Jsoup.parse(new URL(adress), 100000);
         } catch (IOException e) {
             e.printStackTrace();
         }

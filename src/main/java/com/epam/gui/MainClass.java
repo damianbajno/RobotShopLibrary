@@ -43,9 +43,8 @@ public class MainClass extends Application {
             @Override
             public void handle(ActionEvent event) {
                 String urlName = linkListComboBox.getSelectionModel().getSelectedItem().toString();
-                String fileName1 = UrlUtils.getFileName(urlName);
-                System.out.println("file = "+fileName1);
-                FileBookHandler fileBookHandler=new FileBookHandler(fileName1);
+                String fileName = UrlUtils.getFileName(urlName);
+                FileBookHandler fileBookHandler=new FileBookHandler(fileName);
                 freeBookTitleTextArea.appendText(fileBookHandler.readBookTitlesFromFile());
             }
         });
