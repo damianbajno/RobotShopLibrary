@@ -38,7 +38,7 @@ public class UrlUtilsTest {
         UrlUtils urlUtils =new UrlUtils();
 
         //when
-        boolean url = urlUtils.checkIfUrl("de231motywatory.pl");
+        boolean url = urlUtils.checkIfUrl("sgsdrgrdg");
 
         //then
         Assertions.assertThat(url).isFalse();

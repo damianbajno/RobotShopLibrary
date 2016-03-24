@@ -103,7 +103,6 @@ public class BookTitleSearch {
             if (isNumberInTagAndIsLinkWasSearch(element)) {
                 addLinkToSetAndSearchInLinkForPages(element.attr("abs:href"));
             }
-            ;
         }
     }
 
@@ -121,7 +120,7 @@ public class BookTitleSearch {
     private static Document createDocument(String adress) {
         Document document = null;
         try {
-            return document = Jsoup.parse(new URL(adress), 100000);
+             document = Jsoup.parse(new URL(adress), 100000);
         } catch (IOException e) {
             e.printStackTrace();
         }
