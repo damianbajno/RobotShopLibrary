@@ -1,11 +1,12 @@
 package com.epam.robot;
 
 import com.epam.file.FileBookHandler;
-import com.epam.file.FileLinkHandler;
+import com.epam.filelinkreader.FileLinkReader;
 import com.epam.file.Link;
 import com.epam.util.UrlUtils;
 import org.apache.log4j.Logger;
 
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -15,8 +16,8 @@ public class MainRobot {
     private static Logger logger = Logger.getLogger("MainRobot");
 
     public static void main(String[] args) {
-        FileLinkHandler fileLinkHandler = new FileLinkHandler();
-        List<Link> linksList = fileLinkHandler.getLinksList();
+        FileLinkReader fileLinkReader = new FileLinkReader();
+        List<Link> linksList = new LinkedList<>();
         BookTitleSearch bookTitleSearch = new BookTitleSearch();
 
         logger.info("Started Main Robot");

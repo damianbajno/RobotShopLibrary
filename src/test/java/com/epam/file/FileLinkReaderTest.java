@@ -1,5 +1,6 @@
 package com.epam.file;
 
+import com.epam.filelinkreader.FileLinkReader;
 import org.testng.annotations.Test;
 
 import java.util.ArrayList;
@@ -8,16 +9,16 @@ import java.util.List;
 /**
  * Created by damian on 21.03.16.
  */
-public class FileLinkHandlerTest {
+public class FileLinkReaderTest {
     private String url="http://demotywatory.pl/";
 
     @Test
     public void testIfMethodReadsFromFileUrls() {
         //given
-        FileLinkHandler fileLinkHandler=new FileLinkHandler();
+        FileLinkReader fileLinkReader =new FileLinkReader();
 
         //when
-        final List<Link> links = fileLinkHandler.readLinksFromFile();
+        final List<Link> links = fileLinkReader.createLinks();
 
         //then
 //        Assertions.assertThat(links).contains(new Link("demotywatory.pl", null, null));
@@ -27,7 +28,7 @@ public class FileLinkHandlerTest {
     @Test
     public void testIfMethodWritesToFile() {
         //given
-        FileLinkHandler fileLinkHandler=new FileLinkHandler();
+        FileLinkReader fileLinkReader =new FileLinkReader();
 
         //when
         List<Link> linkList= new ArrayList<Link>();

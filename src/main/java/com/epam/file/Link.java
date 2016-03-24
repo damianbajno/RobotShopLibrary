@@ -7,43 +7,30 @@ public class Link {
     private String linkAdress;
     private String typeForSearch;
     private String nameForSearch;
-    private String fileName;
 
     public Link(String linkAdress, String typeForSearch, String nameForSearch) {
         this.linkAdress = linkAdress;
-        this.typeForSearch=typeForSearch;
-        this.nameForSearch=nameForSearch;
-        this.fileName = createFileName();
+        this.typeForSearch = typeForSearch;
+        this.nameForSearch = nameForSearch;
+    }
+
+    public Link(String[] parameters) {
+        this.linkAdress = parameters[0];
+        this.typeForSearch = parameters[1];
+        this.nameForSearch = parameters[2];
     }
 
     public String getElementType() {
         return typeForSearch;
     }
 
-    public void setTypeForSearch(String typeForSearch) {
-        this.typeForSearch = typeForSearch;
-    }
-
     public String getElementName() {
         return nameForSearch;
-    }
-
-    public void setNameForSearch(String nameForSearch) {
-        this.nameForSearch = nameForSearch;
-    }
-
-    protected String createFileName() {
-        return linkAdress.replaceAll("/", "");
     }
 
     public String getLinkAdress() {
         return linkAdress;
     }
-
-    public String getFileName() {
-        return fileName;
-    }
-
 
     @Override
     public boolean equals(Object o) {

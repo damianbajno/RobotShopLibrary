@@ -1,7 +1,7 @@
 package com.epam.gui;
 
 import com.epam.file.FileBookHandler;
-import com.epam.file.FileLinkHandler;
+import com.epam.filelinkreader.FileLinkReader;
 import com.epam.util.UrlUtils;
 import javafx.application.Application;
 import javafx.collections.FXCollections;
@@ -22,14 +22,14 @@ import javafx.stage.Stage;
  * Created by damian on 20.03.16.
  */
 public class MainClass extends Application {
-    private FileLinkHandler fileLinkHandler = new FileLinkHandler();
+    private FileLinkReader fileLinkReader = new FileLinkReader();
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         Label label = new Label("Page adress = ");
 
         final ObservableList<String> observableLinkList = FXCollections.observableArrayList(
-                fileLinkHandler.getUrlList()
+//                fileLinkReader.getUrlList()
         );
 
         final ComboBox<String> linkListComboBox = new ComboBox<String>(observableLinkList);
