@@ -30,26 +30,28 @@ public class BookTitleSearch {
 //        BookTitleSearch.searchTitleByClass("https://www.gutenberg.org/ebooks/search/?query=free+book&go=Go","title");
 
 
-        System.out.println("http://e-bookshop.pl.txt/362-wyprzedaz");
-        BookTitleSearch.searchTitleByTag("http://e-bookshop.pl/362-wyprzedaz?&p=7", "h3");
+//        System.out.println("http://e-bookshop.pl.txt/362-wyprzedaz");
+//        BookTitleSearch.searchTitlesByTag("http://e-bookshop.pl/362-wyprzedaz?&p=7", "h3");
 
 //        BookTitleSearch.searchSubPagesInPageByNumber("http://e-bookshop.pl/362-wyprzedaz");
     }
 
 
-    public static String searchTitlesInPageAndSubPagesByTag(String adress, String typeToSearch) {
-        logger.info("Started searching Titles");
-        resetVariables();
+    public static String searchTitlesInPageAndSubPages(String adress, String typeOfElement, String elementName) {
+        logger.info("Started searching Titles for adress =  " + adress);
+        resetClassVariables();
+
         searchSubPagesInPageByNumber(adress);
 
         final Iterator<String> iterator = addressHashSet.iterator();
 
-        logger.info("Started iterating over links to search title");
-        logger.error("a" + typeToSearch + "a");
+        logger.info("Started iterating over links to search titles");
+        logger.info("a" + elementName + "a");
+
         while (iterator.hasNext()) {
             final String next = iterator.next();
             System.out.println(next);
-            BookTitleSearch.searchTitleByTag(next, typeToSearch);
+            BookTitleSearch.searchTitles(next, typeOfElement, elementName);
         }
 
         logger.info("Finished iterating over links to search titles");
@@ -57,49 +59,32 @@ public class BookTitleSearch {
         return titleBookContainer.toString();
     }
 
-    public static String searchTitlesInPageAndSubPageByClass(String adress, String typeToSearch) {
-        resetVariables();
-        addressHashSet.add(adress);
-        searchSubPagesInPageByNumber(adress);
 
-        final Iterator<String> iterator = addressHashSet.iterator();
-
-
-        while (iterator.hasNext()) {
-            BookTitleSearch.searchTitleByClass(iterator.next(), typeToSearch);
-        }
-
-        return titleBookContainer.toString();
-    }
-
-    private static void resetVariables() {
+    private static void resetClassVariables() {
         titleBookContainer = new StringBuilder();
         addressHashSet = new HashSet<>();
     }
 
-    public static void searchTitleByClass(String adress, String classNameToSearch) {
+
+    public static void searchTitles(String adress, String typeOfElement, String elementName) {
         Document document = createDocument(adress);
+
         Element body = document.body();
 
-        Elements elementsByClass = body.getElementsByClass(classNameToSearch);
-        Iterator<Element> iterator = elementsByClass.iterator();
+        Elements elements;
 
-        while (iterator.hasNext()) {
-            titleBookContainer.append(iterator.next().text()+"\n");
+        if (typeOfElement.equals("tag")) {
+            elements = body.getElementsByTag(elementName);
+        } else {
+            elements = body.getElementsByClass(elementName);
         }
-    }
 
-
-    public static void searchTitleByTag(String adress, String tagNameToSearch) {
-        Document document = createDocument(adress);
-
-        Elements elementsByTag = document.getElementsByTag(tagNameToSearch);
-        Iterator<Element> iterator = elementsByTag.iterator();
+        Iterator<Element> iterator = elements.iterator();
 
         while (iterator.hasNext()) {
             Element next = iterator.next();
             System.out.println(next.text());
-            titleBookContainer.append(next.text()+"\n");
+            titleBookContainer.append(next.text() + "\n");
         }
     }
 
@@ -110,6 +95,7 @@ public class BookTitleSearch {
 
         Elements links = doc.select("a[abs:href]");
         Iterator<Element> iterator = links.iterator();
+        addressHashSet.add(adress);
 
         while (iterator.hasNext()) {
             Element element = iterator.next();
@@ -122,7 +108,7 @@ public class BookTitleSearch {
     }
 
     private static boolean isNumberInTagAndIsLinkWasSearch(Element element) {
-        return NumberUtils.isNumber(element.text().trim()) && !addressHashSet.contains(element.attr("abs:href"));
+        return NumberUtils.isNumber(element.text().trim()) && !addressHashSet.contains(element.attr("abs:href")) && (addressHashSet.size() < 30);
     }
 
     private static void addLinkToSetAndSearchInLinkForPages(String linkToSubPage) {

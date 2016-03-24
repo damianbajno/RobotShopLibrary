@@ -24,24 +24,15 @@ public class MainRobot {
         for (int i = 0; i < linksList.size(); i++) {
             logger.info("Iterating over links by file");
 
-            final Link link = linksList.get(i);
+            Link link = linksList.get(i);
 
-            if (link.getTypeForSearch().equals("tag")) {
-                logger.info("Started Searching titles by Tag");
-                String bookTitles = BookTitleSearch.searchTitlesInPageAndSubPagesByTag(link.getLinkAdress(), link.getNameForSearch());
-                final String fileName = UrlUtils.getFileName(link.getLinkAdress());
+            logger.info("Started Searching titles by Tag");
+            String bookTitles = BookTitleSearch.searchTitlesInPageAndSubPages(link.getLinkAdress(), link.getElementType(), link.getElementName());
+            String fileName = UrlUtils.getFileName(link.getLinkAdress());
 
-                new FileBookHandler(fileName).writeBookTitlesToFile(bookTitles);
-                logger.info("Finished Searching titles by Tag");
-            }
-            if (link.getTypeForSearch().equals("class")) {
+            new FileBookHandler(fileName).writeBookTitlesToFile(bookTitles);
+            logger.info("Finished Searching titles by Tag");
 
-                logger.info("Started Searching titles by Class");
-                String bookTitles = BookTitleSearch.searchTitlesInPageAndSubPageByClass(link.getLinkAdress(), link.getNameForSearch());
-                final String fileName = UrlUtils.getFileName(link.getLinkAdress());
-                new FileBookHandler(fileName).writeBookTitlesToFile(bookTitles);
-                logger.info("Finished Searching titles by Tag");
-            }
         }
     }
 

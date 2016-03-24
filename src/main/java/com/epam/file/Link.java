@@ -16,7 +16,7 @@ public class Link {
         this.fileName = createFileName();
     }
 
-    public String getTypeForSearch() {
+    public String getElementType() {
         return typeForSearch;
     }
 
@@ -24,7 +24,7 @@ public class Link {
         this.typeForSearch = typeForSearch;
     }
 
-    public String getNameForSearch() {
+    public String getElementName() {
         return nameForSearch;
     }
 

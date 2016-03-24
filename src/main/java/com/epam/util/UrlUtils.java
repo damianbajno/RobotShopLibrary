@@ -11,7 +11,7 @@ public class UrlUtils {
     public static boolean checkIfUrl(String url){
         if (url==null) return false;
 
-        Pattern pattern=Pattern.compile("(http)?(s)?(://)?(www.)?[a-z]+[.][a-z]{1,5}(/)*.*");
+        Pattern pattern=Pattern.compile("(http)?(s)?(://)?(www.)?[a-z0-9-]+[.][a-z]{1,5}(/)*.*");
         Matcher matcher = pattern.matcher(url);
 
         return matcher.matches();
@@ -25,6 +25,6 @@ public class UrlUtils {
 
     public static String getFileName(String url){
         int beginIndex = url.indexOf('/') + 2;
-        return url.substring(beginIndex, url.indexOf('/',beginIndex)) + ".txt";
+         return url.substring(beginIndex, url.indexOf('/',beginIndex)) + ".txt";
     }
 }
